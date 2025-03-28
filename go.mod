@@ -2,8 +2,10 @@ module github.com/jaksi/sshesame
 
 go 1.23.0
 
+toolchain go1.24.1
+
 require (
-	github.com/adrg/xdg v0.5.0
+	github.com/adrg/xdg v0.5.3
 	github.com/jaksi/sshutils v0.0.13
 	github.com/prometheus/client_golang v1.19.1
 	golang.org/x/crypto v0.25.0
