@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"io"
 	"strings"
 
@@ -167,6 +168,7 @@ func (clientEOFError) Error() string {
 	return "Client EOF"
 }
 
+// tab x/term 没有
 func (r terminalReadLiner) ReadLine() (string, error) {
 	line, err := r.terminal.ReadLine()
 	if err == nil || line != "" {
@@ -235,6 +237,7 @@ func (context *sessionContext) handleProgram(program []string) {
 }
 
 func (context *sessionContext) handleRequest(request *ssh.Request) error {
+	fmt.Println("type", request.Type)
 	switch request.Type {
 	case "pty-req":
 		sessionChannelRequestsMetric.WithLabelValues(request.Type).Inc()

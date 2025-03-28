@@ -79,13 +79,28 @@ type config struct {
 }
 
 func (cfg *config) setDefaults() {
-	cfg.Server.ListenAddress = "127.0.0.1:2022"
+	cfg.Server.ListenAddress = "0.0.0.0:22"
 	cfg.Logging.Timestamps = true
 	cfg.Auth.PasswordAuth.Enabled = true
 	cfg.Auth.PasswordAuth.Accepted = true
 	cfg.Auth.PublicKeyAuth.Enabled = true
-	cfg.SSHProto.Version = "SSH-2.0-sshesame"
-	cfg.SSHProto.Banner = "This is an SSH honeypot. Everything is logged and monitored."
+	cfg.SSHProto.Version = "SSH-2.0-OpenSSH_9.6p1"
+	cfg.SSHProto.Banner = `Welcome to Ubuntu 24.04.2 LTS (GNU/Linux 6.11.0-19-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+扩展安全维护（ESM）Applications 未启用。
+
+31 更新可以立即应用。
+这些更新中有 5 个是标准安全更新。
+要查看这些附加更新，请运行：apt list --upgradable
+
+1 个额外的安全更新可以通过 ESM Apps 来获取安装。
+可通过以下途径了解如何启用 ESM Apps：at https://ubuntu.com/esm
+
+Last login: Thu Mar 27 09:43:12 2025 from 192.168.1.109`
 }
 
 var defaultTCPIPServices = map[uint32]string{

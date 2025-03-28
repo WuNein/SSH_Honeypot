@@ -46,6 +46,9 @@ func main() {
 	}
 	reloadSignals := make(chan os.Signal, 1)
 	defer close(reloadSignals)
+	termSignals := make(chan os.Signal, 1)
+	defer close(termSignals)
+
 	go func() {
 		for signal := range reloadSignals {
 			infoLogger.Printf("Reloading config due to %s", signal)
@@ -60,6 +63,15 @@ func main() {
 			}
 		}
 	}()
+
+	go func() {
+		sig := <-termSignals
+		infoLogger.Printf("Received signal %s, shutting down...", sig)
+		// Add any cleanup or shutdown logic here
+		os.Exit(0)
+	}()
+
+	signal.Notify(termSignals, syscall.SIGINT, syscall.SIGTERM)
 	signal.Notify(reloadSignals, syscall.SIGHUP)
 
 	listener, err := sshutils.Listen(cfg.Server.ListenAddress, cfg.sshConfig)
@@ -86,6 +98,6 @@ func main() {
 			warningLogger.Printf("Failed to accept connection: %v", err)
 			continue
 		}
-		go handleConnection(conn, cfg)
+		go handleConnection(conn, cfg) // enter point
 	}
 }
